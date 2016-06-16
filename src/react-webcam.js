@@ -31,7 +31,9 @@ export default class Webcam extends Component {
       'image/png',
       'image/jpeg'
     ]),
-    className: PropTypes.string
+    className: PropTypes.string,
+    selectVideoSource: PropTypes.func,
+    selectAudioSource: PropTypes.func,
   };
 
   static mountedInstances = [];
@@ -74,7 +76,7 @@ export default class Webcam extends Component {
         };
       }
 
-      navigator.getUserMedia(constraints, (stream) => {
+      navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         Webcam.mountedInstances.forEach((instance) => instance.handleUserMedia(null, stream));
       }, (e) => {
         Webcam.mountedInstances.forEach((instance) => instance.handleUserMedia(e));
@@ -90,12 +92,18 @@ export default class Webcam extends Component {
           let videoSource = null;
 
           devices.forEach((device) => {
-            if (device.kind === 'audio') {
-              audioSource = device.id;
-            } else if (device.kind === 'video') {
-              videoSource = device.id;
+            if (device.kind === 'audioinput') {
+              audioSource = device.id || device.deviceId;
+            } else if (device.kind === 'videoinput') {
+              videoSource = device.id || device.deviceId;
             }
           });
+
+          if(this.props.selectVideoSource)
+            videoSource = this.props.selectVideoSource(devices);
+
+          if(this.props.selectAudioSource)
+            audioSource = this.props.selectAudioSource(devices);
 
           sourceSelected(audioSource, videoSource);
         })
@@ -114,6 +122,12 @@ export default class Webcam extends Component {
               videoSource = source.id;
             }
           });
+
+          if(this.props.selectVideoSource)
+            videoSource = this.props.selectVideoSource(devices);
+
+          if(this.props.selectAudioSource)
+            audioSource = this.props.selectAudioSource(devices);
 
           sourceSelected(audioSource, videoSource);
         });
