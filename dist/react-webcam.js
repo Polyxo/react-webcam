@@ -139,7 +139,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var sourceSelected = function sourceSelected(audioSource, videoSource) {
 	      var constraints = {
 	        video: {
-	          optional: [{ sourceId: videoSource }]
+	          optional: [{
+	            sourceId: videoSource
+	          }, {
+	            minWidth: _this.props.width
+	          }, {
+	            minHeight: _this.props.height
+	          }],
+	          width: _this.props.width,
+	          height: _this.props.height,
+	          mandatory: {
+	            maxWidth: _this.props.width,
+	            maxHeight: _this.props.height
+	          }
 	        }
 	      };
 
