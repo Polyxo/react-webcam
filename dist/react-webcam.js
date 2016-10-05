@@ -146,8 +146,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, {
 	            minHeight: _this.props.height
 	          }],
-	          width: _this.props.width,
-	          height: _this.props.height,
 	          mandatory: {
 	            maxWidth: _this.props.width,
 	            maxHeight: _this.props.height

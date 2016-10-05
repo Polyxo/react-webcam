@@ -76,8 +76,6 @@ export default class Webcam extends Component {
           {
             minHeight: this.props.height
           }],
-          width: this.props.width,
-          height: this.props.height,
           mandatory:
           {
             maxWidth: this.props.width,
